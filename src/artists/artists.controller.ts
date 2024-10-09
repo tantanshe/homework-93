@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -32,10 +33,11 @@ export class ArtistsController {
     if (!artist) {
       throw new NotFoundException(`Artist ${id} not found`);
     }
+    return artist;
   }
 
   @Post()
-  @UseInterceptors(FileInterceptor('image', { dest: './public/images' }))
+  @UseInterceptors(FileInterceptor('photo', { dest: './public/images' }))
   async create(
     @Body() artistData: CreateArtistDto,
     @UploadedFile() file: Express.Multer.File,
@@ -45,7 +47,15 @@ export class ArtistsController {
       info: artistData.info,
       photo: file ? 'images/' + file.filename : null,
     });
-
     return artist;
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    const artist = await this.artistModel.deleteOne({ _id: id });
+    if (!artist) {
+      throw new NotFoundException(`Artist ${id} not found`);
+    }
+    return { message: `Artist ${id} is deleted` };
   }
 }

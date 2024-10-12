@@ -6,7 +6,8 @@ import {
   NotFoundException,
   Param,
   Post,
-  UploadedFile, UseGuards,
+  UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';

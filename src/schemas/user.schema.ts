@@ -29,7 +29,11 @@ export class User {
   @Prop()
   displayName: string;
 
-  @Prop({ required: true })
+  @Prop({
+    required: true,
+    enum: ['user', 'admin'],
+    default: 'user',
+  })
   role: string;
 }
 
@@ -56,5 +60,5 @@ UserSchema.set('toJSON', {
   transform: (_doc, ret) => {
     delete ret.password;
     return ret;
-  }
+  },
 });
